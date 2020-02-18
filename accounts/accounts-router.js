@@ -28,12 +28,17 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-    db.insert(req.body, "id")
-        .then(ids => {
-            return getById(ids[0]).then(inserted => {
-                res.status(201).json(inserted);
-            });
+    db("accounts")
+        // .insert(req.body, "id")
+        .insert(req.body)
+        .then(account => {
+            res.status(201).json(account)
         })
+        // .then(ids => {
+        //     return getById(ids[0]).then(inserted => {
+        //         res.status(201).json(inserted);
+        //     });
+        // })
         .catch(error => {
             console.log(error);
             res.status(500).json({ error: "failed to add the account" })
@@ -43,7 +48,7 @@ router.post("/", (req, res) => {
 router.put("/:id", (req, res) => {
     const id = req.params.id;
     const changes = req.body;
-    db("posts")
+    db("accounts")
         .where({ id })
         .update(changes)
         .then(count => {
@@ -57,7 +62,7 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
     const id = req.params.id;
-    db("posts")
+    db("accounts")
         .where({ id })
         .del()
         .then(count => {
@@ -72,7 +77,7 @@ router.delete("/:id", (req, res) => {
 module.exports = router;
 
 function getById(id) {
-    return db("posts")
+    return db("accounts")
         .where({ id })
         .first();
 }
