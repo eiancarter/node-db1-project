@@ -1,11 +1,11 @@
 
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('accounts', tbl => {
-    tbl.increments();
-    tbl.string('name')
+  return knex.schema.createTable('accounts', accounts => {
+    accounts.increments();
+    accounts.string('name')
       .notNullable()
       .unique();
-    tbl.decimal('budget')
+    accounts.decimal('budget')
       .notNullable();
   });
 };
